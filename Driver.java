@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 /**
  * Project #2
  * CS 2334, Section 012
- * October 2, 2013
+ * October 9, 2013
  * <P>
  * This class implements a program that will store, read, and write an ADT of academic papers.	
  * </P>
