@@ -43,12 +43,6 @@ public class ConferencePaper extends Paper implements Comparator<Paper>
 	}
 
 	@Override
-	public int compare(Object o1, Object o2) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int compare(Paper o1, Paper o2) {
 		// TODO Auto-generated method stub
 		return 0;

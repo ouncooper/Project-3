@@ -2,7 +2,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public abstract class Paper implements Comparable<Paper>, Serializable
+public abstract class Paper implements Comparable<Paper>, Serializable, Comparator<Paper>
 {	
 	/**
 	 * 
@@ -145,10 +145,5 @@ public abstract class Paper implements Comparable<Paper>, Serializable
 	 */
 	public void setDOI(String DOI) {
 		this.DOI = DOI;
-	}
-
-	public int compare(Object o1, Object o2) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }
