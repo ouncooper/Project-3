@@ -4,10 +4,8 @@ import java.util.Comparator;
 
 public abstract class Paper implements Comparable<Paper>, Serializable, Comparator<Paper>
 {	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8913776819739550541L;
+	
 	/* A variable to store the name of the paper.*/
 	private String name;
 	/* A variable to store the authors of the paper.*/
