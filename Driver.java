@@ -11,6 +11,12 @@ import java.io.InputStreamReader;
  * </P>
  * @version 0.1
  */
+ 
+ // FOR THE LOVE OF EVERYTHING HOLY, DO NOT FORGET
+ //TO GENERATE THE JAVADOC
+ //Or for one point.
+ //DO NOT FORGET KTHX ME.  -Me, 2:19
+ 
 public class Driver
 {
 	/**
