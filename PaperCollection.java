@@ -40,13 +40,35 @@ public class PaperCollection {
 	}
 	
 	/**
-	 * Prints the data in the collection to a file on the drive
-	 * @param filepath Where you want to print the file to
-	 * @throws IOException Error in reading the file, in our out.
+	 * Reads in the objects from a file
+	 * @param filename The file you want to read
 	 */
-	public void printToFile(String filepath) throws IOException
-	{
-
+	public void readBinFile(String filename){
+		
+	}
+	
+	/**
+	 * Reads in objects from a text file
+	 * @param filename The file you want to read
+	 */
+	public void readTextFile(String filename){
+		
+	}
+	
+	/**
+	 * Prints the objects to a file
+	 * @param filename The file you want to print to
+	 */
+	public void printBinFile(String filename){
+		
+	}
+	
+	/**
+	 * Prints the objects to a text file
+	 * @param filename The file you want to print to
+	 */
+	public void printTextFile(String filename){
+		
 	}
 	
 	/**
@@ -59,14 +81,24 @@ public class PaperCollection {
 	
 	/**
 	 * Searches the collection for a keyword.
-	 * @param searchCriteria The search query.
+	 * @param query The search query.
 	 * @return The corresponding paper to the title or null if it does not exist.
 	 */
-	public Paper search(String searchTitle)
+	public Paper searchTitle(String query)
 	{
 		return null;	
 	}
 
+	/**
+	 * Searches the collection for an author
+	 * @param query The author you want to search for
+	 * @return The papers associated with that author
+	 */
+	public Paper[] searchAuthor(String query)
+	{
+		return null;
+	}
+	
 	/**
 	 * Gets the size of the list that contains the papers.
 	 * @return The size of the arrayList that the papers are stored in.
