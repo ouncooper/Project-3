@@ -7,7 +7,11 @@ public class Graph {
 	public Graph() { }
 	
 	/**
+<<<<<<< HEAD
 	 * Graphs the number of journal articles vs. the number of conference papers 
+=======
+	 * Graphs the number of journal articles vs the number of conference papers 
+>>>>>>> 1103cbfd3d4c49bfb3ad57ec1b3eb94be38e685b
 	 * @param input The author who's data you want to graph
 	 */
 	public void graphType(Author input){

@@ -4,11 +4,17 @@ import java.util.ArrayList;
 public class Author {
 
 	/* Last name of the author */
+<<<<<<< HEAD
 	private String secondaryName = "";
 	/* First and middle name(s) of the author */
 	private String primaryName = "";
 	/* List of papers that the author has written */
 	private ArrayList<Paper> paperList = new ArrayList<Paper>();
+=======
+	private String secondaryName;
+	/* First and middle name(s) of the author */
+	private String primaryName;
+>>>>>>> 1103cbfd3d4c49bfb3ad57ec1b3eb94be38e685b
 	
 	/**
 	 * Default constructor for the class.
