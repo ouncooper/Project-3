@@ -27,7 +27,8 @@ public class JournalArticle extends Paper implements Serializable, Comparator<Pa
 	public JournalArticle(String newName, String newAuthors, String newTitle, String newSerialTitle, String newVolumeIssuePageRange, String newDate, String newDOI)
 	{
 		setName(newName);
-		//setAuthors(newAuthors);
+		for(String author: newAuthors.split("; "))
+			addAuthor(author);
 		setTitle(newTitle);
 		setSerialTitle(newSerialTitle);
 		volumeIssue = newVolumeIssuePageRange.split(":")[0];
@@ -49,7 +50,13 @@ public class JournalArticle extends Paper implements Serializable, Comparator<Pa
 	 */
 	public String toString()
 	{
-		return getName() + " // " + getAuthors() + " // " + getTitle() + " // " + getSerialTitle() + " // " + getVolumeIssue() + ":" + getPageRange() + " // " + getDate() + " // " + getDOI();
+		String a = "";
+		for(int i = 0; i < getAuthors().size(); i++){
+			a += getAuthors().get(i).getPrimaryName() + ", " + getAuthors().get(i).getSecondaryName();
+			if(i < getAuthors().size()-1)
+				a += "; ";
+		}
+		return getName() + " // " + a + " // " + getTitle() + " // " + getSerialTitle() + " // " + getVolumeIssue() + ":" + getPageRange() + " // " + getDate() + " // " + getDOI();
 	}
 
 	/**
