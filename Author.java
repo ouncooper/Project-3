@@ -19,6 +19,7 @@ public class Author implements Serializable {
 	{
 		
 	}
+	
 	/**
 	 * Preferred constructor, takes the full name of the author in either
 	 * primary, secondary or secondary primary format.
@@ -50,6 +51,7 @@ public class Author implements Serializable {
 	public String getPrimaryName() {
 		return primaryName;
 	}
+	
 	/**
 	 * @param primaryName the primaryName to set
 	 */
@@ -63,6 +65,7 @@ public class Author implements Serializable {
 	public String getSecondaryName() {
 		return secondaryName;
 	}
+	
 	/**
 	 * @param secondaryName The secondary name of the author
 	 */
@@ -70,6 +73,11 @@ public class Author implements Serializable {
 		secondaryName = newSecondaryName;
 	}
 	
+
+	/**
+	 * Adds a Paper to the Author's portfolio
+	 * @param newPaper The paper you want to add
+	 */
 	public void addPaper(Paper newPaper)
 	{
 		paperList.add(newPaper);
@@ -79,6 +87,10 @@ public class Author implements Serializable {
 		return primaryName + ", " + secondaryName;
 	}
 	
+	/**
+	 * 
+	 * @return The array of papers this author has written
+	 */
 	public ArrayList<Paper> getPaperList(){
 		return paperList;
 	}
