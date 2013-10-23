@@ -64,7 +64,7 @@ public class JournalArticle extends Paper implements Serializable, Comparator<Pa
 	 */
 	@Override
 	public int compare(Paper o1, Paper o2) {
-		// TODO Auto-generated method stub
+		// TODO 
 		return 0;
 	}
 }
