@@ -4,17 +4,11 @@ import java.util.ArrayList;
 public class Author {
 
 	/* Last name of the author */
-<<<<<<< HEAD
 	private String secondaryName = "";
 	/* First and middle name(s) of the author */
 	private String primaryName = "";
 	/* List of papers that the author has written */
 	private ArrayList<Paper> paperList = new ArrayList<Paper>();
-=======
-	private String secondaryName;
-	/* First and middle name(s) of the author */
-	private String primaryName;
->>>>>>> 1103cbfd3d4c49bfb3ad57ec1b3eb94be38e685b
 	
 	/**
 	 * Default constructor for the class.
@@ -35,6 +29,7 @@ public class Author {
 			//Case primary, secondary (last, first middle)
 			secondaryName = name.split(", ")[1];
 			setPrimaryName(name.split(", ")[0]);
+			
 		}
 		else
 		{
@@ -72,9 +67,13 @@ public class Author {
 	public void setSecondaryName(String newSecondaryName) {
 		secondaryName = newSecondaryName;
 	}
-	
+	/*
 	public void addPaper(Paper newPaper)
 	{
 		paperList.add(newPaper);
+	}
+	*/
+	public String toString(){
+		return primaryName + ", " + secondaryName;
 	}
 }
