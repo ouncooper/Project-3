@@ -24,8 +24,7 @@ public class ConferencePaper extends Paper implements Serializable, Comparator<P
 	public ConferencePaper(String newName, String newAuthors, String newTitle, String newSerialTitle, String newPageRange, String newDate,  String newDOI)
 	{
 		setName(newName);
-		String newAuthorsArray[] = newAuthors.split("; ");
-		for(String author:newAuthorsArray)
+		for(String author:newAuthors.split("; "))
 			addAuthor(author);
 		setTitle(newTitle);
 		setSerialTitle(newSerialTitle);
@@ -39,7 +38,13 @@ public class ConferencePaper extends Paper implements Serializable, Comparator<P
 	 */
 	public String toString()
 	{
-		return getName() + " // " + getAuthors() + " // " + getTitle() + " // " + getSerialTitle() + " // " + getPageRange() + " // " + getDate() + " // " + getDOI();
+		String a = "";
+		for(int i = 0; i < getAuthors().size(); i++){
+			a += getAuthors().get(i).getPrimaryName() + ", " + getAuthors().get(i).getSecondaryName();
+			if(i < getAuthors().size()-1)
+				a += "; ";
+		}
+		return getName() + " // " + a + " // " + getTitle() + " // " + getSerialTitle() + " // " + getPageRange() + " // " + getDate() + " // " + getDOI();
 	}
 
 	
