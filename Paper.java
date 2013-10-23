@@ -9,7 +9,7 @@ public abstract class Paper implements Comparable<Paper>, Serializable, Comparat
 	/* A variable to store the name of the paper.*/
 	private String name;
 	/* A variable to store the authors of the paper.*/
-	private ArrayList<Author> authors;
+	private ArrayList<Author> authors = new ArrayList<Author>();
 	/* A variable to store the title of the paper.*/
 	private String title;
 	/* A variable to store the serial title of the paper.*/
@@ -35,6 +35,7 @@ public abstract class Paper implements Comparable<Paper>, Serializable, Comparat
 	 */
 	public int compareTo(Paper otherPaper)
 	{
+		//TODO
 		return -2;
 	}
 	
@@ -55,7 +56,7 @@ public abstract class Paper implements Comparable<Paper>, Serializable, Comparat
 	}
 
 	/**
-	 * @param name the name of the paper
+	 * @param the name of the paper
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -69,7 +70,7 @@ public abstract class Paper implements Comparable<Paper>, Serializable, Comparat
 	}
 
 	/**
-	 * @param authorName the authors of the paper
+	 * @param the authors of the paper
 	 */
 	public void addAuthor(String authorName) {
 		authors.add(new Author(authorName));
@@ -83,7 +84,7 @@ public abstract class Paper implements Comparable<Paper>, Serializable, Comparat
 	}
 
 	/**
-	 * @param title the title of the paper
+	 * @param the title of the paper
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -97,7 +98,7 @@ public abstract class Paper implements Comparable<Paper>, Serializable, Comparat
 	}
 
 	/**
-	 * @param serialTitle the serial title of the paper
+	 * @param the serial title of the paper
 	 */
 	public void setSerialTitle(String serialTitle) {
 		this.serialTitle = serialTitle;
@@ -111,7 +112,7 @@ public abstract class Paper implements Comparable<Paper>, Serializable, Comparat
 	}
 
 	/**
-	 * @param date the date of publication
+	 * @param the date of publication
 	 */
 	public void setDate(String date) {
 		this.date = date;
@@ -125,7 +126,7 @@ public abstract class Paper implements Comparable<Paper>, Serializable, Comparat
 	}
 
 	/**
-	 * @param pageRange the pages the paper is found on in the format "start-end"
+	 * @param the pages the paper is found on in the format "start-end"
 	 */
 	public void setPageRange(String pageRange) {
 		this.pageRange = pageRange;
@@ -139,7 +140,7 @@ public abstract class Paper implements Comparable<Paper>, Serializable, Comparat
 	}
 
 	/**
-	 * @param DOI the digital object identifier of the paper
+	 * @param the digital object identifier of the paper
 	 */
 	public void setDOI(String DOI) {
 		this.DOI = DOI;
