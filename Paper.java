@@ -36,7 +36,7 @@ public abstract class Paper implements Comparable<Paper>, Serializable, Comparat
 	public int compareTo(Paper otherPaper)
 	{
 		//TODO
-		return -2;
+		return -1;
 	}
 	
 	/**
