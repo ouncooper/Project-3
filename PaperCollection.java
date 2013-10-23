@@ -18,7 +18,9 @@ import java.util.Random;
 
 public class PaperCollection {
 	
+	/* A variable to store the collection of Papers */
 	private ArrayList<Paper> paperCollection = new ArrayList<Paper>();
+	/* A HashMap to relate an Author's name to an Author Object */
 	private HashMap<String, Author> nameAuthorMap = new HashMap<String, Author>();
 	
 	/**
@@ -31,17 +33,14 @@ public class PaperCollection {
 	 * Reads in a text file and constructs the proper paper based on the information given.
 	 * @param filepath File path of the text file that contains the list of papers and their details.
 	 * @throws IOException Thrown if a readLine error occurs.
+	 * @throws ClassNotFoundException 
 	 */
-	public PaperCollection(String filepath) throws IOException
+	public PaperCollection(String filepath) throws IOException, ClassNotFoundException
 	{
 		if (filepath.endsWith(".txt"))
 			readTextFile(filepath);
 		else
-			try {
-				readBinFile(filepath);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+			readBinFile(filepath);
 	}
 	
 	/**
@@ -50,7 +49,7 @@ public class PaperCollection {
 	 */
 	public void sort(String method)
 	{
-		
+		//TODO
 	}
 	
 	/**
@@ -59,30 +58,14 @@ public class PaperCollection {
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
-	@SuppressWarnings("unchecked")
 	public void readBinFile(String filePath) throws IOException, ClassNotFoundException
 	{
 		FileInputStream fileStream = new FileInputStream(filePath);
         ObjectInputStream objectStream = new ObjectInputStream(fileStream);
         
-        //Get the titleAuthorMap from the file
-        ////titleAuthorMap = (HashMap<String, ArrayList<Paper>>) objectStream.readObject();
+        //Read in the collection and the namePapersMap
         paperCollection = (ArrayList<Paper>) objectStream.readObject();
         nameAuthorMap = (HashMap<String, Author>) objectStream.readObject();
-        //TODO
-        System.out.println("AuthorMap size: " + nameAuthorMap.size());
-        /*
-        //Create a Hash set to remove duplicate Papers
-        Collection<Paper> noDuplicates = new HashSet<Paper>();
-        
-        //Go through each ArrayList of papers in titleAuthorMap and add each paper to noDuplicates
-        //noDuplicates will remove any duplicates because it's a HashSet
-        for(ArrayList<Paper> eachCollection: titleAuthorMap.values()){
-                        noDuplicates.addAll(eachCollection);
-        }
-        
-        //Add all the papers in noDuplicates to the paperCollection
-        paperCollection.addAll(noDuplicates);
         
         //Close to prevent memory leak*/
         objectStream.close();
@@ -106,32 +89,65 @@ public class PaperCollection {
 			do { //Loops until a new magazine is found.
 				paperInfo[i++] = line;
 				line = br.readLine();
-				if (line == null) //End of file, break from the while loop since it's difficult to conditional this.
-					break;
+				if (line == null) break;	//End of file, break from the while loop since it's difficult to conditional this.
 			} while (!(line.equalsIgnoreCase(""))); //Detection of a new paper.
+			
 			Paper paperToAdd = null;
 			if (paperInfo[0].equalsIgnoreCase("Journal Article")) //Create the appropriate constructor
 				paperToAdd = new JournalArticle(paperInfo[0], paperInfo[1], paperInfo[2], paperInfo[3], paperInfo[4], paperInfo[5], paperInfo[6]);
 			else if (paperInfo[0].equalsIgnoreCase("Conference Paper"))
 				paperToAdd = new ConferencePaper(paperInfo[0], paperInfo[1], paperInfo[2], paperInfo[3], paperInfo[4], paperInfo[5], paperInfo[6]);
-			else System.out.println("There's a major problem!"); //Should never be reached or we have a problem.
+			else System.out.println("Paper is not a Journal Article or Conference Paper"); //Should never be reached or we have a problem.
+			
 			//Add the newly created paper to the collection
 			paperCollection.add(paperToAdd);
 			
 			//Create a new author if necessary
-			//Add the paper to the Author's paperList.
-			for (String author:paperInfo[1].split("; "))
-			{
-				if (!nameAuthorMap.containsKey(author))
-					nameAuthorMap.put(author, new Author(author));
-				nameAuthorMap.get(author).addPaper(paperToAdd);
-			}
+            //Add the paper to the Author's paperList.
+            for (String author:paperInfo[1].split("; "))
+            {
+                    if (!nameAuthorMap.containsKey(author))
+                            nameAuthorMap.put(author, new Author(author));
+                    nameAuthorMap.get(author).addPaper(paperToAdd);
+            }
+            
 			paperInfo = new String[7]; //Reset the information arrays
 			i = 0;
 			line = br.readLine();
 		}
-		System.out.println("\n\n");
-		
+		/*
+		//Make the nameAuthorMap from the paperCollection and link all papers inside the author object
+		for(Paper eachPaper: paperCollection){
+			for(Author eachAuthor: eachPaper.getAuthors()){
+				//Check to see if the hash map doesn't contains the author
+				if(!nameAuthorMap.containsKey(eachAuthor.toString())){
+					nameAuthorMap.put(eachAuthor.toString(), eachAuthor);
+				}
+				eachAuthor.addPaper(eachPaper);
+			}
+		}
+		*/
+		/*
+		//Make the namePapersMap from the paperCollection
+		for(Paper eachPaper: paperCollection){
+			for(Author eachAuthor: eachPaper.getAuthors()){
+				//Check to see if the hash map already contains the author
+				if(namePapersMap.containsKey(eachAuthor.toString())){
+					//If yes, add the paper to the existing author
+					ArrayList<Paper> newPaperList = new ArrayList<Paper>();
+					newPaperList.addAll(namePapersMap.get(eachAuthor.toString()));
+					newPaperList.add(eachPaper);
+					namePapersMap.put(eachAuthor.toString(), newPaperList);
+				}
+				else{
+					//If not, add the author and paper
+					ArrayList<Paper> newPaperList = new ArrayList<Paper>();
+					newPaperList.add(eachPaper);
+					namePapersMap.put(eachAuthor.toString(), newPaperList);
+				}
+			}
+		}*/
+		//Close to prevent memory leak
 		br.close();
 	}
 	
@@ -144,8 +160,7 @@ public class PaperCollection {
 		FileOutputStream fileStream = new FileOutputStream(filePath);
 		ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
 		
-
-		//Save the hashMap (contains the paperCollection)
+		//Save the hashMap and the paperCollection
 		objectStream.writeObject(paperCollection);
 		objectStream.writeObject(nameAuthorMap);
 		
@@ -190,77 +205,87 @@ public class PaperCollection {
 	 */
 	public Paper searchTitle(String query)
 	{
-		return null;	
+		for(Paper eachPaper: paperCollection)
+			if(query.equals(eachPaper.getTitle()))
+				return eachPaper;
+		return null;
 	}
 
 	/**
 	 * Searches the collection for an author
 	 * @param query The author you want to search for
 	 * @return The papers associated with that author
-	 * @throws IOException FIIIIIIIIIIIIIIX
+	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
 	public void searchAuthor(String authorQuery) throws IOException, ClassNotFoundException
 	{
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
-		//Reorder so the author is found/not found
-		Author searchedAuthor = nameAuthorMap.get(authorQuery);
-		if (searchedAuthor == null)
-		{
+		Author currentAuthor = null;
+		if(nameAuthorMap.containsKey(authorQuery))
+			currentAuthor = nameAuthorMap.get(authorQuery);
+		
+		if (currentAuthor == null)
 			System.out.println("No author was found by the name " + authorQuery + ".");
-			return;
-		}
-		
-		for(Paper eachPaper:searchedAuthor.getPaperList())
-			System.out.println(eachPaper.toString());
+		else
+			for(Paper eachPaper: currentAuthor.getPaperList())
+				System.out.println(eachPaper.toString().replace(" // null", "").replaceAll(" // ", "\n") + "\n");
 
-		String input = "something";
-		
+		String input = "";
 		do {
-			
 			System.out.print("Would you like to load (LD), save(SV), generate a graphic(G), or go back(B): ");
 			input = inputReader.readLine();
 			
-			if (input.equalsIgnoreCase("LD"))
-			{
+			//Load
+			if (input.equalsIgnoreCase("LD")){
 				System.out.print("Please input a filename to load from: ");
 				String input2 = inputReader.readLine();
-				readBinFile(input2);
+				
+				FileInputStream fileStream = new FileInputStream(input2);
+				ObjectInputStream objectStream = new ObjectInputStream(fileStream);
+				
+				//Load the author object
+				currentAuthor = (Author) objectStream.readObject();
+				nameAuthorMap.put(currentAuthor.toString(), currentAuthor);
+				
+				objectStream.close();
 			}
-			else if (input.equalsIgnoreCase("SV"))
-			{
+			//Save
+			else if (input.equalsIgnoreCase("SV")){
 				System.out.print("Please input a filename to save to: ");
 				String input2 = inputReader.readLine();
-				printBinFile(input2);
+				
+				FileOutputStream fileStream = new FileOutputStream(input2);
+				ObjectOutputStream objectStream = new ObjectOutputStream(fileStream);
+				
+				//Save the author object
+				objectStream.writeObject(currentAuthor);
+				
+				//Close to prevent memory leak
+				objectStream.close();
 			}
-			else if (input.equalsIgnoreCase("G"))
-			{
+			//Graph
+			else if (input.equalsIgnoreCase("G")){
 				Graph authorGraph = new Graph();
 				System.out.print("What would you like to graph? ");
 				String input2 = inputReader.readLine();
-				if (input2.equalsIgnoreCase("TP"))
-				{
+				if (input2.equalsIgnoreCase("TP")){
 					
 				}
-				else if (input2.equalsIgnoreCase("PY"))
-				{
+				else if (input2.equalsIgnoreCase("PY")){
 					
 				}
-				else if (input2.equalsIgnoreCase("CPY"))
-				{
+				else if (input2.equalsIgnoreCase("CPY")){
 					
 				}
-				else if (input2.equalsIgnoreCase("JPY"))
-				{
+				else if (input2.equalsIgnoreCase("JPY")){
 					
 				}
-				else if (input2.equalsIgnoreCase("NC"))
-				{
+				else if (input2.equalsIgnoreCase("NC")){
 					
 				}
-				else
-				{
+				else{
 					System.out.println("Please choose a valid action.");
 				}
 			}
