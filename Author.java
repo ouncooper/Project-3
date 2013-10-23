@@ -69,11 +69,12 @@ public class Author implements Serializable {
 	public void setSecondaryName(String newSecondaryName) {
 		secondaryName = newSecondaryName;
 	}
-	
+	/*
 	public void addPaper(Paper newPaper)
 	{
 		paperList.add(newPaper);
 	}
+<<<<<<< HEAD
 	
 	public String toString(){
 		return primaryName + ", " + secondaryName;
@@ -82,4 +83,10 @@ public class Author implements Serializable {
 	public ArrayList<Paper> getPaperList(){
 		return paperList;
 	}
+=======
+	*/
+	public String toString(){
+		return primaryName + ", " + secondaryName;
+	}
+>>>>>>> 3d6f93cbecb7ec9fe8061865cb522d8cd5c3b9c8
 }
