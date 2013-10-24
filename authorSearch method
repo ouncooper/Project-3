@@ -1,0 +1,154 @@
+public void searchAuthor(String authorQuery) throws IOException, ClassNotFoundException
+	{
+		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println(nameAuthorMap.size());
+		
+		Author searchedAuthor = null;
+        if(nameAuthorMap.containsKey(authorQuery.toLowerCase()))
+                searchedAuthor = nameAuthorMap.get(authorQuery.toLowerCase());
+        
+        if (searchedAuthor == null)
+        {
+                System.out.println("No author was found by the name " + authorQuery + ".");
+                return;
+        }
+		
+		for(Paper eachPaper:searchedAuthor.getPaperList())
+			System.out.println(eachPaper.toString());
+
+		String input = "something";
+		
+		do {
+			
+			System.out.print("Would you like to load (LD), save(SV), generate a graphic(G), or go back(B): ");
+			input = inputReader.readLine();
+			
+			if (input.equalsIgnoreCase("LD"))
+			{
+				System.out.print("Please input a filename to load from: ");
+				String input2 = inputReader.readLine();
+				readBinFile(input2);
+			}
+			else if (input.equalsIgnoreCase("SV"))
+			{
+				System.out.print("Please input a filename to save to: ");
+				String input2 = inputReader.readLine();
+				printBinFile(input2);
+			}
+			else if (input.equalsIgnoreCase("G"))
+			{
+				Graph authorGraph = null;
+				System.out.print("What would you like to graph? ");
+				String input2 = inputReader.readLine();
+				if (input2.equalsIgnoreCase("TP"))
+				{
+					authorGraph = new Graph("Histogram for Publication Type");
+					int conferencePaperCount = 0;
+					int journalArticleCount = 0;
+					for (Paper writtenPaper:searchedAuthor.getPaperList())
+					{
+						if (writtenPaper.getClass().getName().equalsIgnoreCase("journalarticle"))
+							journalArticleCount++;
+						else
+							conferencePaperCount++;
+					}
+					authorGraph.addBar(conferencePaperCount, "Conference Papers");
+					authorGraph.addBar(journalArticleCount, "Journal Articles");
+					//authorGraph.setGraphicTitle("Histogram for Publication Type");
+				}
+				else if (input2.equalsIgnoreCase("PY"))
+				{
+					authorGraph = new Graph("Histogram for Papers/Year");
+					ArrayList<Integer> yearsList = new ArrayList<Integer>();
+					HashMap<Integer, Integer> yearsNumberMap = new HashMap<Integer, Integer>();
+					for (Paper writtenPaper:searchedAuthor.getPaperList())
+					{
+						System.out.println(writtenPaper.getDate().split(" ")[1]);
+						int yearPublished = Integer.parseInt(writtenPaper.getDate().split(" ")[1]);
+						if (yearsList.contains(yearPublished))
+							yearsNumberMap.put(yearPublished, yearsNumberMap.get(yearPublished) + 1);
+						else
+						{
+							yearsNumberMap.put(yearPublished, 1);
+							yearsList.add(yearPublished);
+						}
+					}
+					Collections.sort(yearsList);
+					for (int i = yearsList.size() - 1; i >= 0; i--)
+						authorGraph.addBar(yearsNumberMap.get(yearsList.get(i)), yearsList.get(i).toString());
+					//Integer[] yearsPublished = (Integer[]) tempValues.values().toArray();
+					//authorGraph.addBar(, label)
+				}
+				else if (input2.equalsIgnoreCase("CPY"))
+				{
+					authorGraph = new Graph("Histogram for Conference Papers/Year");
+					ArrayList<Integer> yearsList = new ArrayList<Integer>();
+					HashMap<Integer, Integer> yearsNumberMap = new HashMap<Integer, Integer>();
+					for (Paper writtenPaper:searchedAuthor.getPaperList())
+					{
+						if (writtenPaper.getClass().getName().equalsIgnoreCase("conferencepaper"))
+						{
+							System.out.println(writtenPaper.getDate().split(" ")[1]);
+							int yearPublished = Integer.parseInt(writtenPaper.getDate().split(" ")[1]);
+							if (yearsList.contains(yearPublished))
+								yearsNumberMap.put(yearPublished, yearsNumberMap.get(yearPublished) + 1);
+							else
+							{
+								yearsNumberMap.put(yearPublished, 1);
+								yearsList.add(yearPublished);
+							}
+						}
+					}
+					Collections.sort(yearsList);
+					for (int i = yearsList.size() - 1; i >= 0; i--)
+						authorGraph.addBar(yearsNumberMap.get(yearsList.get(i)), yearsList.get(i).toString());
+				}
+				else if (input2.equalsIgnoreCase("JPY"))
+				{
+					authorGraph = new Graph("Histogram for Journal Articles/Year");
+					ArrayList<Integer> yearsList = new ArrayList<Integer>();
+					HashMap<Integer, Integer> yearsNumberMap = new HashMap<Integer, Integer>();
+					for (Paper writtenPaper:searchedAuthor.getPaperList())
+					{
+						if (writtenPaper.getClass().getName().equalsIgnoreCase("journalarticle"))
+						{
+							System.out.println(writtenPaper.getDate().split(" ")[1]);
+							int yearPublished = Integer.parseInt(writtenPaper.getDate().split(" ")[1]);
+							if (yearsList.contains(yearPublished))
+								yearsNumberMap.put(yearPublished, yearsNumberMap.get(yearPublished) + 1);
+							else
+							{
+								yearsNumberMap.put(yearPublished, 1);
+								yearsList.add(yearPublished);
+							}
+						}
+					}
+					Collections.sort(yearsList);
+					for (int i = yearsList.size() - 1; i >= 0; i--)
+						authorGraph.addBar(yearsNumberMap.get(yearsList.get(i)), yearsList.get(i).toString());
+				}
+				else if (input2.equalsIgnoreCase("NC"))
+				{
+					authorGraph = new Graph("Histogram for Number of Co-authors");
+					int maxCoAuthors = -1;
+					ArrayList<String> titlesList = new ArrayList<String>();
+					HashMap<String, Integer> titleCoAuthorsMap = new HashMap<String, Integer>();
+					for (Paper writtenPaper:searchedAuthor.getPaperList())
+					{
+						int numberOfCoAuthors = writtenPaper.getAuthors().size() - 1;
+						maxCoAuthors = Math.max(numberOfCoAuthors, maxCoAuthors);
+						titlesList.add(writtenPaper.getTitle());
+						titleCoAuthorsMap.put(writtenPaper.getTitle(), numberOfCoAuthors);
+					}
+					for (int i = maxCoAuthors; i >= 0; i--)
+						for (int j = 0; j < titlesList.size(); j++)
+							if (titleCoAuthorsMap.get(titlesList.get(j)) == i)
+								authorGraph.addBar(i, titlesList.get(j));
+				}
+				else
+				{
+					System.out.println("Please choose a valid action.");
+				}
+			}
+		} while (!input.equalsIgnoreCase("B"));
+	}
