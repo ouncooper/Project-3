@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,9 +48,21 @@ public class PaperCollection {
 	 * Sorts the collection by a certain criteria.
 	 * @param method Which element to sort by (ex. BI for bibliographic, AU for author, etc.)
 	 */
-	public void sort(String method)
-	{
-		//TODO
+	public void sort(String method){
+		switch(method){
+		case "BI": Collections.sort(paperCollection);
+			break;
+		case "AN": Collections.sort(paperCollection, Paper.Comparators.compareAuthors);
+			break;
+		case "PT": Collections.sort(paperCollection, Paper.Comparators.compareTitles);
+			break;
+		case "ST": Collections.sort(paperCollection, Paper.Comparators.compareSerialTitles);
+			break;
+		case "CH": Collections.sort(paperCollection, Paper.Comparators.compareDates);
+			break;
+		case "R": Collections.sort(paperCollection, Paper.Comparators.randomize);
+			break;
+		}
 	}
 	
 	/**
@@ -115,38 +128,6 @@ public class PaperCollection {
 			i = 0;
 			line = br.readLine();
 		}
-		/*
-		//Make the nameAuthorMap from the paperCollection and link all papers inside the author object
-		for(Paper eachPaper: paperCollection){
-			for(Author eachAuthor: eachPaper.getAuthors()){
-				//Check to see if the hash map doesn't contains the author
-				if(!nameAuthorMap.containsKey(eachAuthor.toString())){
-					nameAuthorMap.put(eachAuthor.toString(), eachAuthor);
-				}
-				eachAuthor.addPaper(eachPaper);
-			}
-		}
-		*/
-		/*
-		//Make the namePapersMap from the paperCollection
-		for(Paper eachPaper: paperCollection){
-			for(Author eachAuthor: eachPaper.getAuthors()){
-				//Check to see if the hash map already contains the author
-				if(namePapersMap.containsKey(eachAuthor.toString())){
-					//If yes, add the paper to the existing author
-					ArrayList<Paper> newPaperList = new ArrayList<Paper>();
-					newPaperList.addAll(namePapersMap.get(eachAuthor.toString()));
-					newPaperList.add(eachPaper);
-					namePapersMap.put(eachAuthor.toString(), newPaperList);
-				}
-				else{
-					//If not, add the author and paper
-					ArrayList<Paper> newPaperList = new ArrayList<Paper>();
-					newPaperList.add(eachPaper);
-					namePapersMap.put(eachAuthor.toString(), newPaperList);
-				}
-			}
-		}*/
 		//Close to prevent memory leak
 		br.close();
 	}
@@ -300,12 +281,16 @@ public class PaperCollection {
 		return paperCollection.size();
 	}
 	
+	
 	/**
 	 * Converts the collection to a string
 	 * @return A string representing the collection
 	 */
 	public String toString()
 	{
-		return "";
+		String result = "";
+		for(int i = 0; i < paperCollection.size(); i++)
+			result += paperCollection.get(i).toString();
+		return result;
 	}
 }
