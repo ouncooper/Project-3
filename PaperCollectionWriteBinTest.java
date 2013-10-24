@@ -13,22 +13,14 @@ public class PaperCollectionWriteBinTest {
 
 	@Test
 	public void test() throws IOException, ClassNotFoundException {
-		//Create a paper collection from bin file
-		PaperCollection testCollection = new PaperCollection("papers.ppr");
+		//Create a paper collection from text file
+		PaperCollection testCollection = new PaperCollection("papers.txt");
 		
-		testCollection.printBinFile("outputfile.ppr");
+		testCollection.printBinFile("testexport.ppr");
 		
+		PaperCollection testExportCollection = new PaperCollection("testexport.ppr");
 		
-		//Open the files
-		FileInputStream fileStreamA = new FileInputStream("papers.ppr");
-		ObjectInputStream objectsA = new ObjectInputStream(fileStreamA);
-		
-		FileInputStream fileStreamB = new FileInputStream("outputFile.ppr");
-		ObjectInputStream objectsB = new ObjectInputStream(fileStreamB);
-		
-		
-		//Don't know what the expected is yet
-		Assert.assertEquals(objectsA.readObject(), objectsB.readObject());
+		Assert.assertEquals(testExportCollection.size(), testCollection.size());
 		
 	}
 
