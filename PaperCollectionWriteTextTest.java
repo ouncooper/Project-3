@@ -12,7 +12,7 @@ import org.junit.Test;
 public class PaperCollectionWriteTextTest {
 
 	@Test
-	public void test() throws IOException {
+	public void test() throws IOException, ClassNotFoundException {
 		String fileToOpen = "papers.txt";
 		String savedFile = "testexport.txt";
 		
