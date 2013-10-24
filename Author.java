@@ -73,7 +73,6 @@ public class Author implements Serializable {
 		secondaryName = newSecondaryName;
 	}
 	
-
 	/**
 	 * Adds a Paper to the Author's portfolio
 	 * @param newPaper The paper you want to add
