@@ -10,7 +10,7 @@ import org.junit.Test;
 public class PaperCollectionSearchTitleTest {
 
 	@Test
-	public void test() throws IOException {
+	public void test() throws IOException, ClassNotFoundException {
 		//Make a new collection from file
 		PaperCollection testCollection = new PaperCollection("papers.txt");
 		
