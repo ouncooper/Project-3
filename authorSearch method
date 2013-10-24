@@ -1,3 +1,50 @@
+public void readTextFile(String filePath) throws IOException{
+		FileReader fr = new FileReader(filePath);
+		BufferedReader br = new BufferedReader(fr);
+		
+		String line = br.readLine(); //Initial line grab
+		
+		String[] paperInfo = new String[7]; //Holds the info for the current paper. Will be used in the construction of a new paper object.
+		int i = 0;
+
+		while (line != null) { //Until the end of the file
+			do { //Loops until a new magazine is found.
+				paperInfo[i++] = line;
+				line = br.readLine();
+				if (line == null) //End of file, break from the while loop since it's difficult to conditional this.
+					break;
+			} while (!(line.equalsIgnoreCase(""))); //Detection of a new paper.
+			Paper paperToAdd = null;
+			if (paperInfo[0].equalsIgnoreCase("Journal Article")) //Create the appropriate constructor
+				paperToAdd = new JournalArticle(paperInfo[0], paperInfo[1], paperInfo[2], paperInfo[3], paperInfo[4], paperInfo[5], paperInfo[6]);
+			else if (paperInfo[0].equalsIgnoreCase("Conference Paper"))
+				paperToAdd = new ConferencePaper(paperInfo[0], paperInfo[1], paperInfo[2], paperInfo[3], paperInfo[4], paperInfo[5], paperInfo[6]);
+			else System.out.println("There's a major problem!"); //Should never be reached or we have a problem.
+			//Add the newly created paper to the collection
+			paperCollection.add(paperToAdd);
+			
+			//Create a new author if necessary
+			//Add the paper to the Author's paperList.
+			for (String author:paperInfo[1].split("; "))
+			{
+				//Convert to standard reading format
+				author = author.split(", ")[1].toLowerCase() + " " + author .split(", ")[0].toLowerCase();
+				if (!nameAuthorMap.containsKey(author))
+				{
+					nameAuthorMap.put(author.toLowerCase(), new Author(author));
+					System.out.println("added " + author + " to HM");
+				}
+				nameAuthorMap.get(author).addPaper(paperToAdd);
+			}
+			paperInfo = new String[7]; //Reset the information arrays
+			i = 0;
+			line = br.readLine();
+		}
+		System.out.println("\n\n");
+		
+		br.close();
+	}
+
 public void searchAuthor(String authorQuery) throws IOException, ClassNotFoundException
 	{
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
