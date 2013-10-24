@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.Comparator;
 
-public class JournalArticle extends Paper implements Serializable, Comparator<Paper>
+public class JournalArticle extends Paper implements Serializable
 {
 	private static final long serialVersionUID = 3324219143415691342L;
 	
@@ -58,13 +58,5 @@ public class JournalArticle extends Paper implements Serializable, Comparator<Pa
 		}
 		return getName() + " // " + a + " // " + getTitle() + " // " + getSerialTitle() + " // " + getVolumeIssue() + ":" + getPageRange() + " // " + getDate() + " // " + getDOI();
 	}
-
-	/**
-	 * Compares one paper to another
-	 */
-	@Override
-	public int compare(Paper o1, Paper o2) {
-		// TODO 
-		return 0;
-	}
+	
 }
